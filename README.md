@@ -18,7 +18,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url](https://github.com/parkermmr/React-Extended/contributors)
+[![Contributors][contributors-shield][https://github.com/parkermmr/React-Extended/contributors]
 [![Forks][forks-shield]][forks-url](https://github.com/parkermmr/React-Extended/forks)
 [![Stargazers][stars-shield]][stars-url](https://github.com/parkermmr/React-Extended/stars)
 [![Issues][issues-shield]][issues-url](https://github.com/parkermmr/React-Extended/issues)
