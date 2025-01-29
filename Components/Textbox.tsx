@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import { HexColorPicker } from "react-colorful";
 import {
@@ -13,7 +13,6 @@ import {
   Divider,
   Select,
   MenuItem,
-  Button,
 } from "@mui/material";
 import TextDecreaseIcon from "@mui/icons-material/TextDecrease";
 import TextIncreaseIcon from "@mui/icons-material/TextIncrease";
@@ -39,14 +38,15 @@ import {
 interface TextboxProps {
   initialFormattedText: {
     alignment: string;
-
-    blocks: {
-      text: string;
-
-      styles: { index: number; style: string }[];
-    }[];
+    blocks: { text: string; styles: { index: number; style: string }[] }[];
   };
+  onExtractText?: (
+    formattedText: { text: string; styles: { index: number; style: string }[]; alignment: string }[]
+  ) => void;
+  isEditing: boolean;
+  setExtractTextRef?: (fn: () => void) => void; 
 }
+
 
 const ToolbarContainer = styled(Paper)(() => ({
   display: "flex",
@@ -148,7 +148,7 @@ SWATCH_COLORS.forEach((color) => {
   baseStyleMap[`COLOR_${color.toUpperCase()}`] = { color };
 });
 
-export default function Textbox({ initialFormattedText }: TextboxProps) {
+export default function Textbox({ initialFormattedText, onExtractText, isEditing, setExtractTextRef }: TextboxProps) {
   const [editorState, setEditorState] = useState(() => {
     if (initialFormattedText) {
       const contentState =
@@ -193,7 +193,7 @@ export default function Textbox({ initialFormattedText }: TextboxProps) {
     return customMap;
   };
 
-  const getFormattedText = () => {
+  const extractFormattedText = () => {
     const contentState = editorState.getCurrentContent();
     const blocks = contentState.getBlocksAsArray();
 
@@ -206,12 +206,14 @@ export default function Textbox({ initialFormattedText }: TextboxProps) {
         if (charMeta) {
           const inlineStyles = charMeta.getStyle().toArray();
           inlineStyles.forEach((style) => {
-            styles.push({ index: index ?? 0, style });
+            if (index !== undefined) {
+              styles.push({ index, style });
+            }
           });
         }
       });
 
-      const alignment = block.getData().get("textAlign") || "left";
+      const alignment = block.getData().get("textAlign") || initialFormattedText.alignment || "left";
 
       return {
         text,
@@ -220,9 +222,11 @@ export default function Textbox({ initialFormattedText }: TextboxProps) {
       };
     });
 
-    console.log("Formatted Text Content:", formattedText);
-    return formattedText;
+    if (onExtractText) {
+      onExtractText(formattedText);
+    }
   };
+  
 
   const blockStyleFn = (contentBlock: any): string => {
     const alignment = contentBlock.getData().get("textAlign");
@@ -313,9 +317,22 @@ export default function Textbox({ initialFormattedText }: TextboxProps) {
     setFontSize(sz);
   };
 
+  useEffect(() => {
+    if (!isEditing) {
+      extractFormattedText();
+    }
+  }, [isEditing]);
+
+  useEffect(() => {
+    if (setExtractTextRef) {
+      setExtractTextRef(extractFormattedText);
+    }
+  }, [setExtractTextRef, editorState]);
+
   return (
     <Box>
-      <ToolbarContainer elevation={0}>
+      {isEditing && (
+        <ToolbarContainer elevation={0}>
         <StyledToggleButtonGroup
           size="small"
           value={alignment}
@@ -497,7 +514,7 @@ export default function Textbox({ initialFormattedText }: TextboxProps) {
           )}
         </Menu>
       </ToolbarContainer>
-
+  )}
       <Box
         sx={{
           minHeight: 200,
@@ -532,9 +549,9 @@ export default function Textbox({ initialFormattedText }: TextboxProps) {
           blockStyleFn={blockStyleFn}
           onFocus={handleFocus}
           onBlur={handleBlur}
-        />
+        />  
       </Box>
-      <Button onClick={getFormattedText}>Get Block</Button>
     </Box>
   );
 }
+
