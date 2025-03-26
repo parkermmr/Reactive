@@ -1,0 +1,22 @@
+name: Publish Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: parkermmr/compendium/jobs/release/publish-docs@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          sha: ${{ github.sha }}
+          ref_name: ${{ github.ref }}
+          branch: 'gh-pages'
