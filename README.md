@@ -16,7 +16,7 @@
   <p align="center">
     A React JS component library based on Google's MUI built in TypeScript.
     <br />
-    <a href="https://reactive.pages.io.teampixl.info"><strong>Explore the docs »</strong></a>
+    <a href="https://reactive.teampixl.info"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/parkermmr/reactive">View Demo</a>
