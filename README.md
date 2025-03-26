@@ -8,7 +8,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/parkermmr/reactive">
-    <img src="docs/img/icon.svg" alt="Logo" width="80" height="80" style="filter: invert(1);">
+    <img src="docs/img/logo.svg" alt="Logo" width="80" height="80" style="filter: invert(1);">
   </a>
 
   <h3 align="center">Reactive</h3>
