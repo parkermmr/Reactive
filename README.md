@@ -95,7 +95,7 @@
 [git-url]: https://git-scm.com/
 [docker-url]: https://www.docker.com/
 [compendium-url]: https://github.com/parkermmr/compendium
-[docs-url]: https://compendium.pages.io.teampixl.info
+[docs-url]: https://reactive.teampixl.info
 [python-url]: https://www.python.org/
 [github-actions-url]: https://github.com/features/actions
 [typescript-url]: https://www.typescriptlang.org/
