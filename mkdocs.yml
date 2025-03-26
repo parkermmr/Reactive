@@ -1,7 +1,7 @@
 site_name: Reactive
 site_description: Documentation for Reactive Component Library
 site_author: Parker
-site_url: https://reactive.pages.io.teampixl.info
+site_url: https://reactive.teampixl.info
 nav:
   - Home: index.md
 
